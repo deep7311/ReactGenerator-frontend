@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+
+
+@keyframes customBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes colorCycle {
+  0%   { color: #f472b6; }
+  25%  { color: #facc15; }   
+  50%  { color: #34d399; }  
+  75%  { color: #818cf8; }  
+  100% { color: #f472b6; }
+}
+
+.custom-bounce {
+  animation: customBounce 2s infinite;
+}
+
+.custom-color-animation {
+  animation: colorCycle 6s infinite ease-in-out;
+}
