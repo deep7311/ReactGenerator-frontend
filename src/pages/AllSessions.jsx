@@ -1,19 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "../axios";
+import { useAuthContext } from "../context/AuthContext";
 
 const AllSessions = () => {
-  const [sessions, setSessions] = useState([]);
   const navigate = useNavigate();
-
-  const fetchSessions = async () => {
-    try {
-      const res = await axios.get("/api/sessions");
-      setSessions(res.data.sessions);
-    } catch (err) {
-      console.error("Failed to load sessions", err.message);
-    }
-  };
+  const { sessions, fetchSessions } = useAuthContext();
 
   useEffect(() => {
     fetchSessions();

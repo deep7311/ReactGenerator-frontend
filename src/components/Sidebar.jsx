@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useAuthContext } from "../context/AuthContext";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FiPlus, FiTrash2 } from "react-icons/fi";
@@ -6,40 +6,18 @@ import { AiOutlineLogout } from "react-icons/ai";
 import axios from "../axios";
 import { toast } from "react-toastify";
 import clsx from "clsx";
+import logo from "../assets/logo.png"
 
 const Sidebar = () => {
   const { user, logout } = useAuthContext();
-  const [sessions, setSessions] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
 
-  const fetchSessions = async () => {
-    try {
-      const res = await axios.get("/api/sessions");
-      setSessions(res.data.sessions);
-    } catch (error) {
-      console.error("Failed to fetch sessions:", error);
-      toast.error("Failed to fetch chats");
-    }
-  };
+  const { sessions, setSessions, fetchSessions } = useAuthContext();
 
   useEffect(() => {
     if (user) fetchSessions();
   }, [user, location.pathname]); // reload list on route change
-
-  // const handleNewChat = async () => {
-  //   try {
-  //     const res = await axios.post("/api/sessions", {
-  //       title: "Untitled Session",
-  //     });
-  //     const newSessionId = res.data.session._id;
-  //     toast.success("New chat started");
-  //     navigate(`/dashboard/editor/${newSessionId}`);
-  //   } catch (err) {
-  //     console.error("New session error:", err);
-  //     toast.error("Failed to create new chat");
-  //   }
-  // };
 
   const handleNewChat = async () => {
     try {
@@ -88,8 +66,9 @@ const Sidebar = () => {
 
   return (
     <div className="bg-[#1e293b] h-screen p-4 flex flex-col w-64">
-      <h2 className="text-xl font-semibold mb-4 text-center text-white">
-        🔮 Drive
+      <h2 className="text-xl font-semibold mb-4 text-center text-white flex items-center justify-center gap-2 cursor-pointer" onClick={() => navigate("/")}>
+        <img src={logo} alt="logo" className="w-12 h-12" />
+        <span className="bg-gradient-to-r from-indigo-400 to-pink-500 bg-clip-text text-transparent">Drive JSX</span>
       </h2>
 
       <button
@@ -106,11 +85,15 @@ const Sidebar = () => {
             <div
               key={s._id}
               className={clsx(
-                "flex items-center justify-between px-3 py-2 rounded mb-2 bg-[#334155] text-white",
-                location.pathname === `/dashboard/editor/${s._id}` && "bg-blue-700"
+                "flex items-center hover:bg-[#2a3748] justify-between px-3 py-2 rounded mb-2 bg-[#334155] text-white",
+                location.pathname === `/dashboard/editor/${s._id}` &&
+                  "bg-blue-700"
               )}
             >
-              <Link to={`/dashboard/editor/${s._id}`} className="truncate flex-1 mr-2">
+              <Link
+                to={`/dashboard/editor/${s._id}`}
+                className="truncate flex-1 mr-2"
+              >
                 {s.title || "Untitled Session"}
               </Link>
               <button
@@ -125,6 +108,13 @@ const Sidebar = () => {
           <p className="text-sm text-gray-400 text-center">No chats yet</p>
         )}
       </div>
+
+      <button
+        onClick={() => navigate("/dashboard")}
+        className="mt-4 mb-2 flex items-center justify-center gap-2 text-white hover:text-cyan-400 cursor-pointer"
+      >
+        🏠 Go to Dashboard
+      </button>
 
       <button
         onClick={handleLogout}

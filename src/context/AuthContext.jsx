@@ -9,6 +9,18 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // session me kuch change hue hai ya nhi globally detect karne ke liye
+  const [sessions, setSessions] = useState([]);
+
+  const fetchSessions = async () => {
+    try {
+      const res = await axios.get("/api/sessions");
+      setSessions(res.data.sessions);
+    } catch (err) {
+      console.log("Failed to fetch sessions:", err);
+    }
+  };
+
   // Fetch current user
   const fetchUser = async () => {
     try {
@@ -42,7 +54,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, logout, loading, sessions, setSessions, fetchSessions }}>
       {!loading && children}
     </AuthContext.Provider>
   );

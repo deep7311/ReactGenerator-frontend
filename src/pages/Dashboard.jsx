@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { FiPlus, FiArchive } from "react-icons/fi";
 import axios from "../axios";
@@ -7,32 +7,12 @@ import { toast } from "react-toastify";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { user } = useAuthContext();
-  const [sessionCount, setSessionCount] = useState(0);
+
+  const { user, sessions, fetchSessions } = useAuthContext();
 
   useEffect(() => {
-    const fetchSessionCount = async () => {
-      try {
-        const res = await axios.get("/api/sessions");
-        setSessionCount(res.data.sessions.length);
-      } catch (error) {
-        console.error("Failed to fetch sessions", error.message);
-      }
-    };
-
-    fetchSessionCount();
+    fetchSessions();
   }, []);
-
-  // const handleNewChat = async () => {
-  //   try {
-  //     const res = await axios.post("/api/sessions", {
-  //       title: "Untitled Session",
-  //     });
-  //     navigate(`/dashboard/editor/${res.data.session._id}`);
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
 
   const handleNewChat = async () => {
     try {
@@ -69,7 +49,7 @@ const Dashboard = () => {
           <h2 className="text-lg font-semibold text-gray-300 mb-2">
             Total Sessions
           </h2>
-          <p className="text-5xl font-bold text-cyan-400">{sessionCount}</p>
+          <p className="text-5xl font-bold text-cyan-400">{sessions.length}</p>
         </div>
 
         {/* Start New Chat Button */}
