@@ -30,7 +30,7 @@ const AllSessions = () => {
             <div
               key={session._id}
               className="bg-gray-800 p-4 rounded-lg shadow hover:bg-gray-700 transition cursor-pointer"
-              onClick={() => navigate(`/editor/${session._id}`)}
+              onClick={() => navigate(`/dashboard/editor/${session._id}`)}
             >
               <h3 className="text-xl font-semibold mb-2">{session.title}</h3>
               <p className="text-sm text-gray-400">
