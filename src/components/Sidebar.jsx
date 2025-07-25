@@ -110,7 +110,7 @@ const Sidebar = () => {
                 location.pathname === `/dashboard/editor/${s._id}` && "bg-blue-700"
               )}
             >
-              <Link to={`/editor/${s._id}`} className="truncate flex-1 mr-2">
+              <Link to={`/dashboard/editor/${s._id}`} className="truncate flex-1 mr-2">
                 {s.title || "Untitled Session"}
               </Link>
               <button
