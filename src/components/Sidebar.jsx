@@ -107,7 +107,7 @@ const Sidebar = () => {
               key={s._id}
               className={clsx(
                 "flex items-center justify-between px-3 py-2 rounded mb-2 bg-[#334155] text-white",
-                location.pathname === `/editor/${s._id}` && "bg-blue-700"
+                location.pathname === `/dashboard/editor/${s._id}` && "bg-blue-700"
               )}
             >
               <Link to={`/editor/${s._id}`} className="truncate flex-1 mr-2">
